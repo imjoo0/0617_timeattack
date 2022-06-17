@@ -1,8 +1,10 @@
 # views.py
+from email import message
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import permissions
 from rest_framework import status
+from django.contrib.auth import login, authenticate,logout
 
 class UserView(APIView): # CBV 방식
     permission_classes = [permissions.AllowAny] # 누구나 view 조회 가능
@@ -21,9 +23,6 @@ class UserView(APIView): # CBV 방식
     def delete(self, request):
         return Response({'message': 'delete method!!'})
 
-#로그인 
-
-from django.contrib.auth import login, authenticate
 
 class UserApiView(APIView):
     # 로그인
@@ -38,3 +37,8 @@ class UserApiView(APIView):
         # if 문 return 으로 끗난 경우 else 안써도 됨. 
         login(request, user)
         return Response({"message": "로그인 성공!!"}, status=status.HTTP_200_OK)
+
+    #로그아웃 
+    def delete(self, request):
+        logout(request)
+        return Response({"message":"logout success!"})
